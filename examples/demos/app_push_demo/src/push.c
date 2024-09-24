@@ -82,6 +82,8 @@ static const float up_down_delta = 0.002f;
 
 static float height_sp = 0.2f;
 
+int startup = 0;
+
 #define MAX(a,b) ((a>b)?a:b)
 #define MIN(a,b) ((a<b)?a:b)
 
@@ -174,12 +176,13 @@ void appMain()
         DEBUG_PRINT("S\n");
       }
 
-      if (up < unlockThLow && state == idle && up > 0.001f) {
+      if (state == idle && startup == 0) {
         DEBUG_PRINT("Waiting for hand to be removed!\n");
         state = lowUnlock;
+        startup = 1;
       }
 
-      if (up > unlockThHigh && state == lowUnlock && positioningInit && multirangerInit) {
+      if (state == lowUnlock && positioningInit && startup == 1) {
         DEBUG_PRINT("Unlocked!\n");
         state = unlocked;
       }
