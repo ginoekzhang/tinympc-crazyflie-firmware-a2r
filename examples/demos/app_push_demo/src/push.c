@@ -134,6 +134,7 @@ void appMain()
       float b_comp = back_o * factor;
       float velFront = b_comp + f_comp;
 
+      /*
       // we want to go up when there are obstacles (hands) closer than radius_up_down on both sides
       if(left < radius_up_down && right < radius_up_down)
       {
@@ -145,6 +146,7 @@ void appMain()
       {
         height_sp -= up_down_delta;
       }
+      */
 
       uint16_t up_o = radius - MIN(up, radius);
       float height = height_sp - up_o/1000.0f;
