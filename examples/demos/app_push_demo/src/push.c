@@ -169,7 +169,7 @@ void appMain()
       setHoverSetpoint(&setpoint, height_sp, 0);
       commanderSetSetpoint(&setpoint, 3);
 
-      if (xTaskGetTickCount() > M2T(60000)) {
+      if (xTaskGetTickCount() > M2T(10000)) {
         state = landing;
         DEBUG_PRINT("Landing ...\n");
       } 
