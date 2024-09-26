@@ -65,7 +65,8 @@ static void setHoverSetpoint(setpoint_t *setpoint, float z, float yawrate)
 typedef enum {
     idle,
     hovering,
-    landing
+    landing,
+    stopped
 } State;
 
 static State state = idle;
@@ -175,18 +176,19 @@ void appMain()
       } 
     } else if (state == landing) {
       height_sp -= 0.001f;
-      if (height_sp < 0.1f) {
+      if (height_sp < 0.05f) {
         height_sp = 0.0f;
       }
       
       setHoverSetpoint(&setpoint, height_sp, 0);
       commanderSetSetpoint(&setpoint, 3);
 
-      if (height_sp <= 0.0f) {
-        state = idle;
+      if (height_sp <= 0.01f) {
+        state = stopped;
         DEBUG_PRINT("Landed.\n");
         memset(&setpoint, 0, sizeof(setpoint_t));
         commanderSetSetpoint(&setpoint, 3);
+        break
       }
     } else if (state == idle && positioningInit) {
       state = hovering;
