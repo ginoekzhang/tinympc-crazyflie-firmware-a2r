@@ -106,7 +106,7 @@ void appMain()
   //paramVarId_t idMultiranger = paramGetVarId("deck", "bcMultiranger");
 
 
-  float factor = velMax/radius;
+  //float factor = velMax/radius;
 
   //DEBUG_PRINT("%i", idUp);
 
@@ -121,7 +121,7 @@ void appMain()
 
     //uint16_t up = logGetUint(idUp);
 
-    if (state == unlocked) {
+    //if (state == hovering) {
       /*
       uint16_t left = logGetUint(idLeft);
       uint16_t right = logGetUint(idRight);
@@ -156,6 +156,7 @@ void appMain()
 
       uint16_t up_o = radius - MIN(up, radius);
       */
+      
       float height = height_sp - up_o/1000.0f;
 
 
@@ -163,32 +164,33 @@ void appMain()
       DEBUG_PRINT("f=%i, b=%i, fo=%f, bo=%f, vel=%f\n", front_o, back_o, f_comp, b_comp, velFront);
       DEBUG_PRINT("u=%i, d=%i, height=%f\n", up_o, height);*/
 
-      if (1) {
-        setHoverSetpoint(&setpoint, velFront, velSide, height, 0);
-        commanderSetSetpoint(&setpoint, 3);
+    if (state == hovering) {
+      setHoverSetpoint(&setpoint, velFront, velSide, height, 0);
+      commanderSetSetpoint(&setpoint, 3);
 
-        if (xTaskGetTickCount() > M2T(30000)) {
-          state = landing;
-          DEBUG_PRINT("Landing ...\n");
-      } 
-      else if (state == landing) {
-        height_sp -= 0.01f;
-        if (height_sp < 0.1f) {
-          height_sp = 0.0f;
-        }
-        setHoverSetpoint(&setpoint, height_sp, 0);
-        commanderSetSetpoint(&setpoint, 3);
-
-        if (height_sp <= 0.0f) {
-          state = idle;
-          DEBUG_PRINT("Landed.\n");
-          memset(&setpoint, 0, size of (setpoint_t));
-          commanderSetSetpoint(&setpoint, 3);
-        }
-      else if (state == idle && positioningInit) {
-        state = hovering;
-        DEBUG_PRINT("Hovering ...\n");
+      if (xTaskGetTickCount() > M2T(30000)) {
+        state = landing;
+        DEBUG_PRINT("Landing ...\n");
+    } 
+    else if (state == landing) {
+      height_sp -= 0.01f;
+      if (height_sp < 0.1f) {
+        height_sp = 0.0f;
       }
+      
+      setHoverSetpoint(&setpoint, height_sp, 0);
+      commanderSetSetpoint(&setpoint, 3);
+
+      if (height_sp <= 0.0f) {
+        state = idle;
+        DEBUG_PRINT("Landed.\n");
+        memset(&setpoint, 0, sizeof(setpoint_t));
+        commanderSetSetpoint(&setpoint, 3);
+      }
+    else if (state == idle && positioningInit) {
+      state = hovering;
+      DEBUG_PRINT("Hovering ...\n");
+    }
       /*
       if (height < 0.1f) {
         state = stopping;
@@ -220,7 +222,7 @@ void appMain()
         commanderSetSetpoint(&setpoint, 3);
       }
 
-      */
     }
+    */
   }
 }
