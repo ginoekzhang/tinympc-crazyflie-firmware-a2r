@@ -174,7 +174,7 @@ void appMain()
         DEBUG_PRINT("Landing ...\n");
       } 
     } else if (state == landing) {
-      height_sp -= 0.01f;
+      height_sp -= 0.001f;
       if (height_sp < 0.1f) {
         height_sp = 0.0f;
       }
