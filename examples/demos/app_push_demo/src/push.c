@@ -188,7 +188,7 @@ void appMain()
         DEBUG_PRINT("Landed.\n");
         memset(&setpoint, 0, sizeof(setpoint_t));
         commanderSetSetpoint(&setpoint, 3);
-        break
+        break;
       }
     } else if (state == idle && positioningInit) {
       state = hovering;
