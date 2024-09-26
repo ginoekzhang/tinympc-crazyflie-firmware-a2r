@@ -81,7 +81,7 @@ static const uint16_t radius_up_down = 100;
 static const float up_down_delta = 0.002f;
 */
 
-static float height_sp = 0.2f;
+static float height_sp = 0.4f;
 
 int startup = 0;
 
@@ -169,7 +169,7 @@ void appMain()
       setHoverSetpoint(&setpoint, height_sp, 0);
       commanderSetSetpoint(&setpoint, 3);
 
-      if (xTaskGetTickCount() > M2T(30000)) {
+      if (xTaskGetTickCount() > M2T(60000)) {
         state = landing;
         DEBUG_PRINT("Landing ...\n");
       } 
