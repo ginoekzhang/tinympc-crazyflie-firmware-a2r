@@ -42,7 +42,7 @@
 #include "log.h"
 #include "param.h"
 
-#define DEBUG_MODULE "PUSH"
+#define DEBUG_MODULE "HOVER"
 
 static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float yawrate)
 {
