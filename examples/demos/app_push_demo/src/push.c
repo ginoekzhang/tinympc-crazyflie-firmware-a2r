@@ -64,13 +64,13 @@ static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, 
 
 typedef enum {
     idle,
-    lowUnlock,
-    unlocked,
-    stopping
+    hovering,
+    landing
 } State;
 
 static State state = idle;
 
+/*
 static const uint16_t unlockThLow = 100;
 static const uint16_t unlockThHigh = 300;
 static const uint16_t stoppedTh = 500;
@@ -79,6 +79,7 @@ static const float velMax = 1.0f;
 static const uint16_t radius = 300;
 static const uint16_t radius_up_down = 100;
 static const float up_down_delta = 0.002f;
+*/
 
 static float height_sp = 0.2f;
 
@@ -93,14 +94,16 @@ void appMain()
 
   vTaskDelay(M2T(3000));
 
+  /*
   logVarId_t idUp = logGetVarId("range", "up");
   logVarId_t idLeft = logGetVarId("range", "left");
   logVarId_t idRight = logGetVarId("range", "right");
   logVarId_t idFront = logGetVarId("range", "front");
   logVarId_t idBack = logGetVarId("range", "back");
+  */
   
   paramVarId_t idPositioningDeck = paramGetVarId("deck", "bcFlow2");
-  paramVarId_t idMultiranger = paramGetVarId("deck", "bcMultiranger");
+  //paramVarId_t idMultiranger = paramGetVarId("deck", "bcMultiranger");
 
 
   float factor = velMax/radius;
@@ -114,11 +117,12 @@ void appMain()
     //DEBUG_PRINT(".");
 
     uint8_t positioningInit = paramGetUint(idPositioningDeck);
-    uint8_t multirangerInit = paramGetUint(idMultiranger);
+    //uint8_t multirangerInit = paramGetUint(idMultiranger);
 
-    uint16_t up = logGetUint(idUp);
+    //uint16_t up = logGetUint(idUp);
 
     if (state == unlocked) {
+      /*
       uint16_t left = logGetUint(idLeft);
       uint16_t right = logGetUint(idRight);
       uint16_t front = logGetUint(idFront);
@@ -136,7 +140,7 @@ void appMain()
       float b_comp = back_o * factor;
       float velFront = b_comp + f_comp;
 
-      /*
+      
       // we want to go up when there are obstacles (hands) closer than radius_up_down on both sides
       if(left < radius_up_down && right < radius_up_down)
       {
@@ -148,9 +152,10 @@ void appMain()
       {
         height_sp -= up_down_delta;
       }
-      */
+      
 
       uint16_t up_o = radius - MIN(up, radius);
+      */
       float height = height_sp - up_o/1000.0f;
 
 
@@ -161,12 +166,35 @@ void appMain()
       if (1) {
         setHoverSetpoint(&setpoint, velFront, velSide, height, 0);
         commanderSetSetpoint(&setpoint, 3);
-      }
 
+        if (xTaskGetTickCount() > M2T(30000)) {
+          state = landing;
+          DEBUG_PRINT("Landing ...\n");
+      } 
+      else if (state == landing) {
+        height_sp -= 0.01f;
+        if (height_sp < 0.1f) {
+          height_sp = 0.0f;
+        }
+        setHoverSetpoint(&setpoint, height_sp, 0);
+        commanderSetSetpoint(&setpoint, 3);
+
+        if (height_sp <= 0.0f) {
+          state = idle;
+          DEBUG_PRINT("Landed.\n");
+          memset(&setpoint, 0, size of (setpoint_t));
+          commanderSetSetpoint(&setpoint, 3);
+        }
+      else if (state == idle && positioningInit) {
+        state = hovering;
+        DEBUG_PRINT("Hovering ...\n");
+      }
+      /*
       if (height < 0.1f) {
         state = stopping;
         DEBUG_PRINT("X\n");
       }
+      
 
     } else {
 
@@ -191,6 +219,8 @@ void appMain()
         memset(&setpoint, 0, sizeof(setpoint_t));
         commanderSetSetpoint(&setpoint, 3);
       }
+
+      */
     }
   }
 }
