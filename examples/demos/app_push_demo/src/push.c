@@ -44,7 +44,7 @@
 
 #define DEBUG_MODULE "HOVER"
 
-static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, float yawrate)
+static void setHoverSetpoint(setpoint_t *setpoint, float z, float yawrate)
 {
   setpoint->mode.z = modeAbs;
   setpoint->position.z = z;
@@ -56,8 +56,8 @@ static void setHoverSetpoint(setpoint_t *setpoint, float vx, float vy, float z, 
 
   setpoint->mode.x = modeVelocity;
   setpoint->mode.y = modeVelocity;
-  setpoint->velocity.x = vx;
-  setpoint->velocity.y = vy;
+  setpoint->velocity.x = 0.0f;
+  setpoint->velocity.y = 0.0f;
 
   setpoint->velocity_body = true;
 }
@@ -155,9 +155,10 @@ void appMain()
       
 
       uint16_t up_o = radius - MIN(up, radius);
-      */
+      
       
       float height = height_sp - up_o/1000.0f;
+      */
 
 
       /*DEBUG_PRINT("l=%i, r=%i, lo=%f, ro=%f, vel=%f\n", left_o, right_o, l_comp, r_comp, velSide);
@@ -165,14 +166,14 @@ void appMain()
       DEBUG_PRINT("u=%i, d=%i, height=%f\n", up_o, height);*/
 
     if (state == hovering) {
-      setHoverSetpoint(&setpoint, velFront, velSide, height, 0);
+      setHoverSetpoint(&setpoint, height_sp, 0);
       commanderSetSetpoint(&setpoint, 3);
 
       if (xTaskGetTickCount() > M2T(30000)) {
         state = landing;
         DEBUG_PRINT("Landing ...\n");
-    } 
-    else if (state == landing) {
+      } 
+    } else if (state == landing) {
       height_sp -= 0.01f;
       if (height_sp < 0.1f) {
         height_sp = 0.0f;
@@ -187,7 +188,7 @@ void appMain()
         memset(&setpoint, 0, sizeof(setpoint_t));
         commanderSetSetpoint(&setpoint, 3);
       }
-    else if (state == idle && positioningInit) {
+    } else if (state == idle && positioningInit) {
       state = hovering;
       DEBUG_PRINT("Hovering ...\n");
     }
