@@ -3,7 +3,7 @@
 This repos contains the push demo for Cazyflie 2.x.
 It uses out-of-tree build functionality of the Crazyflie firmware and is implemented using the app entry-point.
 
-This demo works with a Crazyflie 2.x with Flow deck version 2.0 and Multiranger deck attached. If you want to use the Flow deck 1.0 or any other positioning deck, you will need to change the following line to look at the parameter for the wanted deck:
+This demo works with a Crazyflie 2.x with Flow deck version 2.0 and Multiranger deck attached. **BOTH THESE ATTACHEMENTS ARE REQUIRED FOR THE DEMO TO RUN** If you want to use the Flow deck 1.0 or any other positioning deck, you will need to change the following line to look at the parameter for the wanted deck:
 ```
   uint16_t idPositioningDeck = paramGetVarId("deck", "bcFlow2");
 
@@ -31,4 +31,7 @@ make -j$(nproc)
 make cload
 ```
 
+## Running
+
+Once the app layer is bootloaded, the demo will automatically be running on the crazyflie. To start the demo, place your hand ontop of the drone (within 1 inch of the multiranger) for 3 seconds, and quickly remove it to prevent collision during take off 
 
