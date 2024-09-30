@@ -20,7 +20,8 @@ branch off from the 2017.06 tag.
 See the [building and flashing instructions](https://github.com/bitcraze/crazyflie-firmware/blob/master/docs/building-and-flashing/build.md) in the github docs folder.
 `make && CLOAD_CMDS="-w radio://0/1/2M" make cload`
 
-**PLEASE NOTE TO CLONE THIS REPOSITORY INSTEAD OF THE ORIGINAL FIRMWARE TO IMPLEMENT TINYMPC**
+**PLEASE NOTE TO CLONE THIS REPOSITORY INSTEAD OF THE ORIGINAL TO IMPLEMENT TINYMPC**
+
 `git clone --recursive https://github.com/ginoekzhang/tinympc-crazyflie-firmware-a2r.git`
 
 ## Official Documentation
