@@ -33,5 +33,5 @@ make cload
 
 ## Running
 
-Once the app layer is bootloaded, the demo will automatically be running on the crazyflie. To start the demo, place your hand ontop of the drone (within 1 inch of the multiranger) for 3 seconds, and quickly remove it to prevent collision during take off 
+Once the app layer is bootloaded, the demo will automatically be running at idle state on the crazyflie. To start the demo, place your hand ontop of the drone (within 1 inch of the multiranger) for 3 seconds, and quickly remove it to prevent collision during take off 
 
