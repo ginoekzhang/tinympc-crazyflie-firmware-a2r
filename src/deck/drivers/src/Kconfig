@@ -12,7 +12,7 @@ config DECK_AI
     bool "Support the AI deck"
     select ENABLE_CPX
     select ENABLE_CPX_ON_UART2
-    default n
+    default y
     help
         The AI-deck 1.1 extends the computational capabilities and will
         enable complex artificial intelligence-based workloads to run
