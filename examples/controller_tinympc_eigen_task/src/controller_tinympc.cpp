@@ -75,12 +75,12 @@ extern "C"
 #include "quadrotor_50hz_params_constrained.hpp"
 
 // Trajectory
-// #include "quadrotor_100hz_ref_hover.hpp"
+#include "quadrotor_100hz_ref_hover.hpp"
 // #include "quadrotor_50hz_ref_circle.hpp"
 // #include "quadrotor_50hz_ref_circle_2_5s.hpp"
 // #include "quadrotor_50hz_line_5s.hpp"
 // #include "quadrotor_50hz_line_8s.hpp"
-#include "quadrotor_50hz_line_9s_xyz.hpp"
+// #include "quadrotor_50hz_line_9s_xyz.hpp"
 
 // Edit the debug name to get nice debug prints
 #define DEBUG_MODULE "MPCTASK"
